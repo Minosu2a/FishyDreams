@@ -7,7 +7,6 @@ public class UIManager : Singleton<UIManager>
 
     #region Fields
     private UIController _uiController = null;
-
     #endregion Fields
 
 
@@ -37,6 +36,8 @@ public class UIManager : Singleton<UIManager>
     {
         base.Start();
     }
+
+  
     #endregion Methods
 
 
