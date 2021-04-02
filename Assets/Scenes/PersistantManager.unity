@@ -452,7 +452,7 @@ MonoBehaviour:
   _audioManager: {fileID: 744845360}
   _characterManager: {fileID: 305374777}
   _gameStateManager: {fileID: 722574055}
-  _sceneToLoadAtLaunch: 4
+  _sceneToLoadAtLaunch: 3
 --- !u!1 &1642142539
 GameObject:
   m_ObjectHideFlags: 0
