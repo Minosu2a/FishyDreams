@@ -281,6 +281,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _soundDatas:
   - {fileID: 11400000, guid: 0447097e073fd1147a9618afa04fe62d, type: 2}
+  - {fileID: 11400000, guid: 7f11a4311c19dba43aaca37a2f262591, type: 2}
   _mainSoundSource: {fileID: 7820365783914371624, guid: 42ebadbf2e627854489f92a0adcff783,
     type: 3}
   _3DSoundSource: {fileID: 7820365783914371624, guid: c4127883cbc45c94ca04448a9d0ac117,

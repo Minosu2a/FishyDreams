@@ -22,6 +22,6 @@ public class CharacterMovement : MonoBehaviour
 
         _move = transform.right * x + transform.forward * y;
 
-        _controller.Move(_move * _speed);
+        _controller.Move(_move * _speed * Time.deltaTime);
     }
 }

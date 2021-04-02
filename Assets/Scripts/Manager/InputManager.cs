@@ -36,15 +36,8 @@ public class InputManager : Singleton<InputManager>
 
     protected override void Update()
     {
-        if(Input.GetButtonDown("Jump"))
-        {
 
-        }
-
-        if(Input.GetButtonDown("Fire3"))
-        {
-
-        }
+    
 
         if(Input.GetButtonUp("Fire3"))
         {
