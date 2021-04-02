@@ -1,6 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
+using System.Collections.Generic;
+using cakeslice;
 
 public class SelectionManager : MonoBehaviour
 {
@@ -14,6 +17,7 @@ public class SelectionManager : MonoBehaviour
     private Material _defaultMaterial = null;
 
     Transform _selection = null;
+
 
     [Header("Computer")]
     [SerializeField] private Camera _characterCam = null;
@@ -30,6 +34,10 @@ public class SelectionManager : MonoBehaviour
 
     [Header("Door")]
     [SerializeField] private ObjectEventLogic _boxOfKey = null;
+    [SerializeField] private Outline _doorOutline = null;
+    [SerializeField] private GameObject _doorLocation = null;
+
+    private bool _gotKey = false;
 
     [Header("Carton")]
     [SerializeField] private GameObject _firstKey = null;
@@ -38,6 +46,8 @@ public class SelectionManager : MonoBehaviour
     [SerializeField] private GameObject _doorObject = null;
     [SerializeField] private GameObject _newDoorObject = null;
 
+    [Header("ExitPhase1")]
+    [SerializeField] private Animator _fadeAnim = null;
 
     #endregion Fields
 
@@ -69,12 +79,11 @@ public class SelectionManager : MonoBehaviour
 
        if(_selection != null)
        {
-            Renderer selectionRenderer = _selection.GetComponent<Renderer>();
-            selectionRenderer.material = _defaultMaterial;
-            _selection = null;
+            ObjectEventLogic eventLogic2 = _selection.GetComponent<ObjectEventLogic>();
+            eventLogic2.Outline.eraseRenderer = true;
        }
 
-       if(_computerActive == false)
+        if (_computerActive == false)
        {
 
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -103,11 +112,14 @@ public class SelectionManager : MonoBehaviour
                         {
                             if(eventLogic.HintActivated == true)
                             {
-                                Renderer selectionRenderer = selection.GetComponent<Renderer>();
-                                _defaultMaterial = selectionRenderer.material;
-                                selectionRenderer.material = _highlightMaterial;
 
-                                _selection = selection;
+                                eventLogic.Outline.eraseRenderer = false;
+
+                                /*   Renderer selectionRenderer = selection.GetComponent<Renderer>();
+                                   _defaultMaterial = selectionRenderer.material;
+                                   selectionRenderer.material = _highlightMaterial;*/
+
+                                 _selection = selection;
                             }
 
                             if (Input.GetButtonDown("Fire1"))
@@ -128,17 +140,32 @@ public class SelectionManager : MonoBehaviour
                                         break;
 
                                     case 2:
-                                        _boxOfKey.Selectable = true;
+                                        if(_gotKey == false)
+                                        {
+                                            _boxOfKey.Selectable = true;
+                                        }
+                                        else
+                                        {
+                                            _doorObject.SetActive(false);
+                                            AudioManager.Instance.Start3DSound("S_DoorOpen", _doorLocation.transform);
+                                            _newDoorObject.SetActive(true);
+                                        }
                                         break;
                                     case 3:
                                         _firstKey.gameObject.SetActive(true);
+                                        
                                         break;
 
                                     case 4:
+                                        _gotKey = true;
+                                        AudioManager.Instance.Start2DSound("S_KeyPickUp");
+                                        _doorOutline.color = 1;
 
-                                        _doorObject.SetActive(false);
+                                        break;
+                                    case 5:
                                         AudioManager.Instance.Start2DSound("S_DoorOpen");
-                                        _newDoorObject.SetActive(true);
+                                        _fadeAnim.SetTrigger("FadeOut");
+                                        StartCoroutine(ExitPhase1());
 
                                         break;
                                 }
@@ -195,6 +222,11 @@ public class SelectionManager : MonoBehaviour
         _hudComputer.SetActive(true);
     }
 
+    private IEnumerator ExitPhase1()
+    {
+        yield return new WaitForSeconds(1.2f);
+        GameStateManager.Instance.LaunchTransition(EGameState.GAME);
+    }
 
     #endregion Methods
 

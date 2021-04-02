@@ -55,7 +55,7 @@ public class UIController : MonoBehaviour
 
     private void Start()
     {
-    AudioManager.Instance.Start3DSound("RS_Fan", _computerPos.transform);
+        AudioManager.Instance.Start3DSound("RS_Fan", _computerPos.transform);
         AudioManager.Instance.Start2DSound("RS_Ambiant");
     }
 

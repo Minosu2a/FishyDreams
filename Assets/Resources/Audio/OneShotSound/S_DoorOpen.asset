@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: S_DoorOpen
   m_EditorClassIdentifier: 
   _key: S_DoorOpen
-  _clip: {fileID: 8300000, guid: 3b618dd6c889e8c4f9e5ed19d3ca5a55, type: 3}
+  _clip: {fileID: 8300000, guid: 428eb5c7fdc38ae419271b05a0cf8007, type: 3}
   _volume: 1
   _pitch: 1
   _loop: 0

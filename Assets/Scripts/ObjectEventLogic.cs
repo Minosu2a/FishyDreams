@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using cakeslice;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -13,6 +14,8 @@ public class ObjectEventLogic : MonoBehaviour
     [SerializeField] private bool _soundOnSelect = false;
     [SerializeField] private string _soundToPlayOnSelect = string.Empty;
     private bool _selectAudioPlayed = false;
+    [SerializeField] private Outline _outline = null;
+
 
     [SerializeField] private bool _hintActivated = false;
 
@@ -40,6 +43,18 @@ public class ObjectEventLogic : MonoBehaviour
         set
         {
             _selectable = value;
+        }
+    }
+
+    public Outline Outline
+    {
+        get
+        {
+            return _outline;
+        }
+        set
+        {
+            _outline = value;
         }
     }
     public int ObjectNumber => _objectNumber;
