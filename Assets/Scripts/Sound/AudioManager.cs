@@ -61,6 +61,9 @@ public class AudioManager : Singleton<AudioManager>
     //Can be used if main musics are used several time, to avoid confusion or error. If used new fonction for those main music has to be created
     // [Header("Music Names")]                                       
     // [SerializeField] private string _mainMenuTheme = null;
+
+
+
     #endregion Fields
 
     #region Property
@@ -125,6 +128,7 @@ public class AudioManager : Singleton<AudioManager>
             _timerFadeOutTick.OnTick += FadeOutTick;
 
         }
+
 
 
     }

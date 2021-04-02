@@ -26,11 +26,17 @@ public class UIController : MonoBehaviour
     [SerializeField] private GameObject _luckWindow = null;
     [SerializeField] private GameObject _searchWindow = null;
 
+    private bool _keyBought = false;
+
     [Header("InputField")]
     [SerializeField] private KeyCode _validationKey1 = KeyCode.KeypadEnter;
     [SerializeField] private KeyCode _validationKey2 = KeyCode.Return;
     [SerializeField] private TMP_InputField _inputField = null;
 
+
+    [Header("Other")]
+
+    [SerializeField] private GameObject _computerPos = null;
     #endregion Fields
     #region Property
     #endregion Property
@@ -47,6 +53,11 @@ public class UIController : MonoBehaviour
         GameManager.Instance.TogglePause();
     }
 
+    private void Start()
+    {
+    AudioManager.Instance.Start3DSound("RS_Fan", _computerPos.transform);
+        AudioManager.Instance.Start2DSound("RS_Ambiant");
+    }
 
     private void Update()
     {
@@ -74,6 +85,7 @@ public class UIController : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         _characterCam.gameObject.SetActive(true);
         _selectionManager.ComputerActive = false;
+        AudioManager.Instance.Start3DSound("S_Click", _mouseLocation.transform);
 
 
 
@@ -107,17 +119,32 @@ public class UIController : MonoBehaviour
         _searchWindow.SetActive(true);
     }
 
+    public void KawaiSound()
+    {
+        AudioManager.Instance.Start3DSound("S_Anime", _screenLocation.transform);
+    }
 
     public void Luck()
     {
+       
         AudioManager.Instance.Start3DSound("S_Click", _mouseLocation.transform);
 
-        _luckWindow.SetActive(true);
+        if(_keyBought == false)
+        {
+            _luckWindow.SetActive(true);
+        }
+        else
+        {
+            _searchWindow.SetActive(true);
+        }
     }
 
    
     public void Buy()
     {
+        _keyBought = true;
+        AudioManager.Instance.Start3DSound("S_Buy", _screenLocation.transform);
+
         AudioManager.Instance.Start3DSound("S_Click", _mouseLocation.transform);
 
         _luckWindow.SetActive(false);

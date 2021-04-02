@@ -21,7 +21,24 @@ public class SelectionManager : MonoBehaviour
 
     [SerializeField] private Camera _computerCam = null;
     [SerializeField] private GameObject _hudComputer = null;
+
     private bool _computerActive = false;
+
+    [SerializeField] private GameObject _keyboardLocation = null;
+
+    [SerializeField] private GameObject _computerLight = null;
+
+    [Header("Door")]
+    [SerializeField] private ObjectEventLogic _boxOfKey = null;
+
+    [Header("Carton")]
+    [SerializeField] private GameObject _firstKey = null;
+
+    [Header("Key")]
+    [SerializeField] private GameObject _doorObject = null;
+    [SerializeField] private GameObject _newDoorObject = null;
+
+
     #endregion Fields
 
 
@@ -84,6 +101,14 @@ public class SelectionManager : MonoBehaviour
                         //REGARDE SI IL EST EN SELECTABLE 
                         if(eventLogic.Selectable == true)
                         {
+                            if(eventLogic.HintActivated == true)
+                            {
+                                Renderer selectionRenderer = selection.GetComponent<Renderer>();
+                                _defaultMaterial = selectionRenderer.material;
+                                selectionRenderer.material = _highlightMaterial;
+
+                                _selection = selection;
+                            }
 
                             if (Input.GetButtonDown("Fire1"))
                             {
@@ -95,11 +120,35 @@ public class SelectionManager : MonoBehaviour
                                         Cursor.lockState = CursorLockMode.None;
                                         _characterCam.gameObject.SetActive(false);
                                         _computerActive = true;
-
+                                        AudioManager.Instance.Start3DSound("S_Press", _keyboardLocation.transform);
                                         _computerCam.gameObject.SetActive(true);
-                                        _hudComputer.SetActive(true);
+
+                                        StartCoroutine(ComputerStart());
+                                        
+                                        break;
+
+                                    case 2:
+                                        _boxOfKey.Selectable = true;
+                                        break;
+                                    case 3:
+                                        _firstKey.gameObject.SetActive(true);
+                                        break;
+
+                                    case 4:
+
+                                        _doorObject.SetActive(false);
+                                        AudioManager.Instance.Start2DSound("S_DoorOpen");
+                                        _newDoorObject.SetActive(true);
+
                                         break;
                                 }
+
+                                if(eventLogic.DeleteOnSelect == true)
+                                {
+                                    //AudioManager.Instance.Start3DSound("S_Vanish", selection.gameObject.transform); //METTRE SUR LE FX
+                                    selection.gameObject.SetActive(false);
+                                }
+
 
                                 if (eventLogic.SoundOnSelect == true && eventLogic.SelectAudioPlayed == false)    //JOUE LE SON
                                 {
@@ -109,19 +158,10 @@ public class SelectionManager : MonoBehaviour
 
                             }
 
-                             Renderer selectionRenderer = selection.GetComponent<Renderer>();
-                             _defaultMaterial = selectionRenderer.material;
-                             selectionRenderer.material = _highlightMaterial;
-
-                            _selection = selection;
                         }
 
 
-                        if (eventLogic.SoundOnInteract == true && eventLogic.InteractAudioPlayed == false)
-                        {
-                            eventLogic.InteractAudioPlayed = true;
-                            AudioManager.Instance.Start2DSound(eventLogic.SoundToPlayOnInteract);
-                        }
+                  
 
 
                         if (eventLogic.SoundOnLook == true && eventLogic.LookAudioPlayed == false)
@@ -148,6 +188,14 @@ public class SelectionManager : MonoBehaviour
 
       
     }
+
+    private IEnumerator ComputerStart()
+    {
+        yield return new WaitForSeconds(0.5f);
+        _hudComputer.SetActive(true);
+    }
+
+
     #endregion Methods
 
 }

@@ -14,12 +14,10 @@ public class ObjectEventLogic : MonoBehaviour
     [SerializeField] private string _soundToPlayOnSelect = string.Empty;
     private bool _selectAudioPlayed = false;
 
+    [SerializeField] private bool _hintActivated = false;
 
 
-    [Header("Interact")]
-    [SerializeField] private bool _soundOnInteract = false;
-    [SerializeField] private string _soundToPlayOnInteract = string.Empty;
-    private bool _interactAudioPlayed = false;
+
 
 
     [Header("Look")]
@@ -33,7 +31,17 @@ public class ObjectEventLogic : MonoBehaviour
     #endregion Fields
 
     #region Properties
-    public bool Selectable => _selectable;
+    public bool Selectable
+    {
+        get
+        {
+            return _selectable;
+        }
+        set
+        {
+            _selectable = value;
+        }
+    }
     public int ObjectNumber => _objectNumber;
     public bool DeleteOnSelect => _deleteOnSelect;
     public bool SoundOnSelect => _soundOnSelect;
@@ -50,23 +58,11 @@ public class ObjectEventLogic : MonoBehaviour
         }
 
     }
-    
+
+    public bool HintActivated => _hintActivated;
 
 
-    public bool SoundOnInteract => _soundOnInteract;
-    public string SoundToPlayOnInteract => _soundToPlayOnInteract;
-    public bool InteractAudioPlayed
-    {
-        get
-        {
-            return _interactAudioPlayed;
-        }
-        set
-        {
-            _interactAudioPlayed = value;
-        }
 
-    }
 
 
     public bool SoundOnLook => _soundOnLook;

@@ -31,7 +31,7 @@ public class CharacterMovement : MonoBehaviour
 
     void Start()
     {
-        
+        CharacterManager.Instance.CharacterController = this;
     }
 
     void Update()

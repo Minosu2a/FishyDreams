@@ -49,3 +49,7 @@ MonoBehaviour:
   _characterMovement: {fileID: 0}
   _computerCam: {fileID: 0}
   _hudComputer: {fileID: 0}
+  _keyboardLocation: {fileID: 0}
+  _computerLight: {fileID: 0}
+  _boxOfKey: {fileID: 0}
+  _firstKey: {fileID: 0}

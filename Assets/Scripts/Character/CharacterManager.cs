@@ -5,12 +5,12 @@ using UnityEngine;
 public class CharacterManager : Singleton<CharacterManager>
 {
     #region Fields
-    private CharacterController _characterController = null;
+    private CharacterMovement _characterController = null;
     #endregion Fields
 
 
     #region Property
-    public CharacterController CharacterController
+    public CharacterMovement CharacterController
     {
 
         get
@@ -32,7 +32,7 @@ public class CharacterManager : Singleton<CharacterManager>
     #region Methods
    public void Initialize()
    {
-
+        // AudioManager.Instance.Start3DSound("R", CharacterController.transform);
    }
 
     #endregion Methods
