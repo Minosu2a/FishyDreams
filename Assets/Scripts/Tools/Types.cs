@@ -18,6 +18,7 @@ public enum EGameState
     LOADING,
     MAINMENU,
     GAME,
+    PROG,
     NONE
 
 };

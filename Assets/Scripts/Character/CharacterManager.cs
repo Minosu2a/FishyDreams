@@ -5,23 +5,23 @@ using UnityEngine;
 public class CharacterManager : Singleton<CharacterManager>
 {
     #region Fields
-    private CharacterStateController _characterStateController = null;
+    private CharacterController _characterController = null;
     #endregion Fields
 
 
     #region Property
-    public CharacterStateController CharacterStateController
+    public CharacterController CharacterController
     {
 
         get
         {
-            return _characterStateController;
+            return _characterController;
         }
         set
         {
-            if (_characterStateController == null)
+            if (_characterController == null)
             {
-                _characterStateController = value;
+                _characterController = value;
             }
         }
 

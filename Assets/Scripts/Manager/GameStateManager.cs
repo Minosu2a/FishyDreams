@@ -47,6 +47,11 @@ public class GameStateManager : Singleton<GameStateManager>
         gameState.Initialize(EGameState.GAME);
         _states.Add(EGameState.GAME, gameState);
 
+        GameState progState = new GameState();
+        gameState.Initialize(EGameState.PROG);
+        _states.Add(EGameState.PROG, progState);
+
+
         _currenStateType = EGameState.INITIALIZE;
     }
 

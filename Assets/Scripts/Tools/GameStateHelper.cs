@@ -18,6 +18,9 @@ public static class GameStateHelper
             case EGameState.GAME:
                 sceneName = "Game";
                 break;
+            case EGameState.PROG:
+                sceneName = "Prog";
+                break;
 
 
         }

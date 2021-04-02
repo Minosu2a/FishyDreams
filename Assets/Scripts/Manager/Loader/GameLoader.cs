@@ -29,7 +29,7 @@ public class GameLoader : MonoBehaviour
         _characterManager.Initialize();
         _gameStateManager.Initialize();
 
-         GameStateManager.Instance.LaunchTransition(EGameState.MAINMENU);
+         GameStateManager.Instance.LaunchTransition(_sceneToLoadAtLaunch);
     }
 
     #endregion Methods

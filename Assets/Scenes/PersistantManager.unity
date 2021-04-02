@@ -150,7 +150,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28386fc2a05b32144a09373047d2c395, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _sprintEnabled: 0
 --- !u!4 &148312629
 Transform:
   m_ObjectHideFlags: 0
@@ -446,7 +445,7 @@ MonoBehaviour:
   _audioManager: {fileID: 744845360}
   _characterManager: {fileID: 305374777}
   _gameStateManager: {fileID: 722574055}
-  _sceneToLoadAtLaunch: 2
+  _sceneToLoadAtLaunch: 4
 --- !u!1 &1642142539
 GameObject:
   m_ObjectHideFlags: 0
