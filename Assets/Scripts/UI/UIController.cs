@@ -8,20 +8,23 @@ public class UIController : MonoBehaviour
     #region Fields
 
     [SerializeField] private GameObject _screenLocation = null;
+    [SerializeField] private GameObject _mouseLocation = null;
+    [SerializeField] private GameObject _keyboardLocation = null;
+
+
 
 
     [Header("Computer Open/Close")]
     [SerializeField] private Camera _characterCam = null;
     [SerializeField] private CharacterMovement _characterMovement = null;
 
-    [SerializeField] private Camera _computerCam = null;
+    [SerializeField] private GameObject _computerCam = null;
     [SerializeField] private GameObject _hudComputer = null;
     [SerializeField] private SelectionManager _selectionManager = null;
 
     [Header("Computer Content")]
     [SerializeField] private GameObject _luckWindow = null;
     [SerializeField] private GameObject _searchWindow = null;
-    [SerializeField] private AudioSource _searchMusic = null;
 
     [Header("InputField")]
     [SerializeField] private KeyCode _validationKey1 = KeyCode.KeypadEnter;
@@ -55,7 +58,8 @@ public class UIController : MonoBehaviour
 
         if (Input.GetKeyDown(_validationKey1) || Input.GetKeyDown(_validationKey2))
         {
-            Search();
+            AudioManager.Instance.Start3DSound("S_Press", _keyboardLocation.transform);
+            SearchOpen();
         }
     }
 
@@ -77,6 +81,7 @@ public class UIController : MonoBehaviour
 
     public void ExitSearchPage()
     {
+        AudioManager.Instance.Start3DSound("S_Click", _mouseLocation.transform);
         _searchWindow.SetActive(false);
         AudioManager.Instance.Start3DSound("S_Sayonara", _screenLocation.transform);
         AudioManager.Instance.StopSound(ESoundType.REPETITIVE3D, "M_Japan");
@@ -84,27 +89,37 @@ public class UIController : MonoBehaviour
 
     public void ExitLuckPage()
     {
+        AudioManager.Instance.Start3DSound("S_Click", _mouseLocation.transform);
         _luckWindow.SetActive(false);
     }
 
-    public void Search()
+    public void SearchButton()
     {
+        AudioManager.Instance.Start3DSound("S_Click", _mouseLocation.transform);
+        SearchOpen();
+    }
+
+    public void SearchOpen()
+    {
+
         AudioManager.Instance.Start3DSound("M_Japan", _screenLocation.transform);
         AudioManager.Instance.Start3DSound("S_Konichiwa", _screenLocation.transform);
         _searchWindow.SetActive(true);
-        _searchMusic.Play();
-
     }
 
 
     public void Luck()
     {
+        AudioManager.Instance.Start3DSound("S_Click", _mouseLocation.transform);
+
         _luckWindow.SetActive(true);
     }
 
    
     public void Buy()
     {
+        AudioManager.Instance.Start3DSound("S_Click", _mouseLocation.transform);
+
         _luckWindow.SetActive(false);
     }
 
