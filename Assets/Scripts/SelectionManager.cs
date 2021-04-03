@@ -47,6 +47,8 @@ public class SelectionManager : MonoBehaviour
     [SerializeField] private Outline _doorOutline = null;
     [SerializeField] private GameObject _doorLocation = null;
 
+    private bool _firstTime = true;
+
     private bool _gotKey = false;
 
     [Header("Carton")]
@@ -198,6 +200,11 @@ public class SelectionManager : MonoBehaviour
                                     case 2:     //PORTE 
                                         if(_gotKey == false)
                                         {
+                                           if( _firstTime == true)
+                                           {
+                                                AudioManager.Instance.Start2DSound("D_DoorLocked");
+                                                _firstTime = false;
+                                           }
                                             _boxOfKey.Selectable = true;
                                         }
                                         else
