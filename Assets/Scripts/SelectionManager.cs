@@ -48,6 +48,9 @@ public class SelectionManager : MonoBehaviour
 
     [Header("ExitPhase1")]
     [SerializeField] private Animator _fadeAnim = null;
+    [SerializeField] private Transform _spawnPosition = null;
+    [SerializeField] private GameObject _characterPrefab = null;
+
 
     #endregion Fields
 
@@ -225,7 +228,10 @@ public class SelectionManager : MonoBehaviour
     private IEnumerator ExitPhase1()
     {
         yield return new WaitForSeconds(1.2f);
-        GameStateManager.Instance.LaunchTransition(EGameState.GAME);
+        _characterPrefab.transform.position = _spawnPosition.transform.position;
+        yield return new WaitForSeconds(0.2f);
+        _fadeAnim.SetTrigger("FadeIn");
+
     }
 
     #endregion Methods
