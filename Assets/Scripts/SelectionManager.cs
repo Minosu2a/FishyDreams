@@ -492,6 +492,7 @@ public class SelectionManager : MonoBehaviour
         {
             case 1:
                 AudioManager.Instance.Start3DSound("S_WindowOpen1", _windowSoundPos.transform);
+                AudioManager.Instance.Start2DSound("RS_Quake");
                 _characterCam.fieldOfView = 61;
                 yield return new WaitForSeconds(0.05f);
                 _characterCam.fieldOfView = 62;
@@ -573,15 +574,19 @@ public class SelectionManager : MonoBehaviour
 
                 _fadeAnim.SetTrigger("FadeOut");
                 yield return new WaitForSeconds(1f);
+                AudioManager.Instance.StopSound(ESoundType.REPETITIVE2D, "RS_Quake");
+                AudioManager.Instance.StopSound(ESoundType.REPETITIVE3D, "RS_Fan");
+                AudioManager.Instance.StopSound(ESoundType.REPETITIVE2D, "RS_Ambiant");
 
                 AudioManager.Instance.Start2DSound("S_Fall");
                 yield return new WaitForSeconds(5f);
-                AudioManager.Instance.StopSound(ESoundType.REPETITIVE2D, "RS_Ambiant");
+
                 AudioManager.Instance.PlayMusicWithFadeIn("RS_Death", 2f);
                 yield return new WaitForSeconds(3f);
                 AudioManager.Instance.PlayTheme();
                 yield return new WaitForSeconds(92f);
                 AudioManager.Instance.Start2DSound("S_Sayonara");
+                yield return new WaitForSeconds(2.5f);
                 Application.Quit();
 
                 break;

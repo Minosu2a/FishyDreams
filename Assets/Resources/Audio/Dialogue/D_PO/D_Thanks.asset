@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 87744370b371c984b82958ff44ebe188, type: 3}
-  m_Name: RS_Quake
+  m_Name: D_Thanks
   m_EditorClassIdentifier: 
-  _key: RS_Quake
-  _clip: {fileID: 8300000, guid: c1aaebef42c28b348bf2dbce80273148, type: 3}
+  _key: D_Thanks
+  _clip: {fileID: 8300000, guid: 4fe5e86eee49bee4a87e331971c4dd8f, type: 3}
   _volume: 1
   _pitch: 1
-  _loop: 1
+  _loop: 0
