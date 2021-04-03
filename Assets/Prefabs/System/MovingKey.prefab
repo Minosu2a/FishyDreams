@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 8745052589360023952}
   - component: {fileID: 7261352912882764913}
   m_Layer: 0
-  m_Name: Key
+  m_Name: MovingKey
   m_TagString: ObjectEvent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -108,7 +108,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _selectable: 1
-  _objectNumber: 4
+  _objectNumber: 8
   _deleteOnSelect: 0
   _soundOnSelect: 0
   _soundToPlayOnSelect: 

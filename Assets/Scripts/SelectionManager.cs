@@ -74,6 +74,15 @@ public class SelectionManager : MonoBehaviour
     [Header("Window")]
     [SerializeField] private Outline _windowOutline = null;
     [SerializeField] private ObjectEventLogic _windowLogic = null;
+    [SerializeField] private GameObject _windowSoundPos = null;
+
+    [SerializeField] private GameObject _store1 = null;
+    [SerializeField] private GameObject _store2 = null;
+    [SerializeField] private GameObject _store3 = null;
+
+    [SerializeField] private int _stepNumber = 0;
+
+
 
 
 
@@ -172,12 +181,12 @@ public class SelectionManager : MonoBehaviour
                                         }
                                         else
                                         {
-                                          //  AudioManager.Instance.Start2DSound("");
+                                          //  AudioManager.Instance.Start2DSound(""); //VOIX
                                         }
                                         
                                         break;
 
-                                    case 2:     //CARTON
+                                    case 2:     //PORTE 
                                         if(_gotKey == false)
                                         {
                                             _boxOfKey.Selectable = true;
@@ -189,12 +198,12 @@ public class SelectionManager : MonoBehaviour
                                             _newDoorObject.SetActive(true);
                                         }
                                         break;
-                                    case 3:
+                                    case 3: //CARTON
                                         _firstKey.gameObject.SetActive(true);
 
                                         break;
 
-                                    case 4:
+                                    case 4: //FIRST KEY
                                         _gotKey = true;
                                         AudioManager.Instance.Start2DSound("S_KeyPickUp");
                                         _doorOutline.color = 1;
@@ -209,6 +218,12 @@ public class SelectionManager : MonoBehaviour
                                     case 6:     //FENETRE
                                         if(_phaseNumber == 4)
                                         {
+                                            switch(_stepNumber)
+                                            {
+                                                case 0:
+                                                    break;
+                                            }
+                                             _stepNumber++;
 
                                         }
                                         else
@@ -306,6 +321,9 @@ public class SelectionManager : MonoBehaviour
                 break;
 
             case 3:
+                _store1.SetActive(false);
+                _store2.SetActive(true);
+
                 _screenOutline.color = 1;
                 _screenLogic.Selectable = true;
                 _keyboardOutline.color = 1;
@@ -315,6 +333,8 @@ public class SelectionManager : MonoBehaviour
                 break;
 
             case 4:
+                _store2.SetActive(false);
+                _store3.SetActive(true);
                 _windowOutline.color = 1;
                 _windowLogic.Selectable = true;
                 break;
@@ -381,6 +401,103 @@ public class SelectionManager : MonoBehaviour
 
 
     }
+
+    private IEnumerator WindowOpen()
+    {
+        switch(_stepNumber)
+        {
+            case 1:
+                AudioManager.Instance.Start3DSound("S_WindowOpen1", _windowSoundPos.transform);
+                _characterCam.fieldOfView = 61;
+                yield return new WaitForSeconds(0.05f);
+                _characterCam.fieldOfView = 62;
+                yield return new WaitForSeconds(0.05f);
+                _characterCam.fieldOfView = 63;
+                yield return new WaitForSeconds(0.05f);
+                _characterCam.fieldOfView = 64;
+                yield return new WaitForSeconds(0.05f);
+                _characterCam.fieldOfView = 65;
+                yield return new WaitForSeconds(0.05f);
+                _characterCam.fieldOfView = 66;
+                yield return new WaitForSeconds(0.05f);
+                _characterCam.fieldOfView = 67;
+                yield return new WaitForSeconds(0.05f);
+                _characterCam.fieldOfView = 68;
+                yield return new WaitForSeconds(0.05f);
+                _characterCam.fieldOfView = 69;
+                yield return new WaitForSeconds(0.05f);
+                _characterCam.fieldOfView = 70;
+
+                _stepNumber++;
+                break;
+
+            case 2:
+                AudioManager.Instance.Start3DSound("S_WindowOpen2", _windowSoundPos.transform);
+                _characterCam.fieldOfView = 71;
+                yield return new WaitForSeconds(0.05f);
+                _characterCam.fieldOfView = 72;
+                yield return new WaitForSeconds(0.05f);
+                _characterCam.fieldOfView = 73;
+                yield return new WaitForSeconds(0.05f);
+                _characterCam.fieldOfView = 74;
+                yield return new WaitForSeconds(0.05f);
+                _characterCam.fieldOfView = 75;
+                yield return new WaitForSeconds(0.05f);
+                _characterCam.fieldOfView = 76;
+                yield return new WaitForSeconds(0.05f);
+                _characterCam.fieldOfView = 77;
+                yield return new WaitForSeconds(0.05f);
+                _characterCam.fieldOfView = 78;
+                yield return new WaitForSeconds(0.05f);
+                _characterCam.fieldOfView = 79;
+                yield return new WaitForSeconds(0.05f);
+                _characterCam.fieldOfView = 80;
+
+                _stepNumber++;
+                break;
+
+           /*  case 3:
+                 AudioManager.Instance.Start3DSound("S_WindowOpen2", _windowSoundPos.transform);
+                 _characterCam.fieldOfView = 71;
+                 yield return new WaitForSeconds(0.05f);
+                 _characterCam.fieldOfView = 72;
+                 yield return new WaitForSeconds(0.05f);
+                 _characterCam.fieldOfView = 73;
+                 yield return new WaitForSeconds(0.05f);
+                 _characterCam.fieldOfView = 74;
+                 yield return new WaitForSeconds(0.05f);
+                 _characterCam.fieldOfView = 75;
+                 yield return new WaitForSeconds(0.05f);
+                 _characterCam.fieldOfView = 76;
+                 yield return new WaitForSeconds(0.05f);
+                 _characterCam.fieldOfView = 77;
+                 yield return new WaitForSeconds(0.05f);
+                 _characterCam.fieldOfView = 78;
+                 yield return new WaitForSeconds(0.05f);
+                 _characterCam.fieldOfView = 79;
+                 yield return new WaitForSeconds(0.05f);
+                 _characterCam.fieldOfView = 80;
+
+                 _stepNumber++;
+                 break;*/
+
+            case 4:
+                _characterMovement.MovementActive = false;
+
+                _fadeAnim.SetTrigger("FadeOut");
+                yield return new WaitForSeconds(1f);
+
+                AudioManager.Instance.Start2DSound("S_Fall");
+                yield return new WaitForSeconds(5f);
+                AudioManager.Instance.PlayMusicWithFadeIn("RS_Death", 2f);
+                AudioManager.Instance.PlayTheme();
+                break;
+        }
+          
+
+
+    }
+
 
     #endregion Methods
 

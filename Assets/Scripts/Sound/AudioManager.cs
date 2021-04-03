@@ -58,6 +58,8 @@ public class AudioManager : Singleton<AudioManager>
     private float _volumeFadeOutTarget = 1f;
     private float _fadeOutTickVolumeValue = 0;
 
+    [SerializeField] private AudioSource _themeSource = null;
+
     //Can be used if main musics are used several time, to avoid confusion or error. If used new fonction for those main music has to be created
     // [Header("Music Names")]                                       
     // [SerializeField] private string _mainMenuTheme = null;
@@ -133,6 +135,12 @@ public class AudioManager : Singleton<AudioManager>
 
     }
     #endregion Start
+
+
+    public void PlayTheme()
+    {
+        _themeSource.Play();
+    }
 
     #region Volume Manager
     private void MainSoundVolumeUpdate()
