@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: S_Sayonara
   m_EditorClassIdentifier: 
   _key: S_Sayonara
-  _clip: {fileID: 8300000, guid: 0106a3a370f17b243b3c786af09cf673, type: 3}
+  _clip: {fileID: 8300000, guid: e9d239188f6cedd47a4e4befa7bae81d, type: 3}
   _volume: 1
   _pitch: 1
   _loop: 0

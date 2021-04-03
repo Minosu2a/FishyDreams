@@ -135,6 +135,8 @@ public class UIController : MonoBehaviour
         }
         else
         {
+            AudioManager.Instance.Start3DSound("M_Japan", _screenLocation.transform);
+            AudioManager.Instance.Start3DSound("S_Konichiwa", _screenLocation.transform);
             _searchWindow.SetActive(true);
         }
     }
