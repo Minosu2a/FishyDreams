@@ -52,6 +52,7 @@ public class SelectionManager : MonoBehaviour
     private bool _gotKey = false;
 
     [Header("Carton")]
+    [SerializeField] private bool _keyDiscovered = false;
     [SerializeField] private GameObject _firstKey = null;
 
     [Header("FirstKey")]
@@ -102,6 +103,7 @@ public class SelectionManager : MonoBehaviour
     [SerializeField] private GameObject[] _objectToReset = null;
     [SerializeField] private ExitTrigger _exitTrigger = null;
     private bool _pcFirstTime = true;
+    private bool _hasJumped = false;
 
     #endregion Fields
 
@@ -187,8 +189,7 @@ public class SelectionManager : MonoBehaviour
                                         {
                                             if(_pcFirstTime == true)
                                             {
-                                                AudioManager.Instance.Start2DSound("D_HintLuck"); //VOIX
-
+                                                AudioManager.Instance.Start2DSound("D_HintLuck");
                                                 _pcFirstTime = false;
                                             }
                                             
@@ -221,13 +222,21 @@ public class SelectionManager : MonoBehaviour
                                         }
                                         else
                                         {
+                                            if(_phaseNumber == 2)
+                                            {
+                                                AudioManager.Instance.Start2DSound("D_Thanks");
+                                            }
                                             _doorObject.SetActive(false);
                                             AudioManager.Instance.Start3DSound("S_DoorOpen", _doorLocation.transform);
                                             _newDoorObject.SetActive(true);
                                         }
                                         break;
                                     case 3: //CARTON
-                                        _firstKey.gameObject.SetActive(true);
+                                        if (_keyDiscovered == false)
+                                        {
+                                            _keyDiscovered = true;
+                                            _firstKey.gameObject.SetActive(true);
+                                        }
 
                                         break;
 
@@ -386,6 +395,7 @@ public class SelectionManager : MonoBehaviour
                 break;
 
             case 4:
+                UIManager.Instance.UIController._lastPhase = true;
                 _store2.SetActive(false);
                 _store3.SetActive(true);
                 _windowOutline.color = 1;
@@ -488,112 +498,148 @@ public class SelectionManager : MonoBehaviour
 
     private IEnumerator WindowOpen()
     {
-        switch(_stepNumber)
+        if (_hasJumped == false)
         {
+              switch (_stepNumber)
+               {
+
+            
+
             case 1:
                 AudioManager.Instance.Start3DSound("S_WindowOpen1", _windowSoundPos.transform);
-                AudioManager.Instance.Start2DSound("RS_Quake");
-                _characterCam.fieldOfView = 61;
-                yield return new WaitForSeconds(0.05f);
-                _characterCam.fieldOfView = 62;
-                yield return new WaitForSeconds(0.05f);
-                _characterCam.fieldOfView = 63;
-                yield return new WaitForSeconds(0.05f);
-                _characterCam.fieldOfView = 64;
-                yield return new WaitForSeconds(0.05f);
-                _characterCam.fieldOfView = 65;
-                yield return new WaitForSeconds(0.05f);
-                _characterCam.fieldOfView = 66;
-                yield return new WaitForSeconds(0.05f);
-                _characterCam.fieldOfView = 67;
-                AudioManager.Instance.Start2DSound("D_Window1");
-                yield return new WaitForSeconds(0.05f);
-                _characterCam.fieldOfView = 68;
-                yield return new WaitForSeconds(0.05f);
-                _characterCam.fieldOfView = 69;
-                yield return new WaitForSeconds(0.05f);
-                _characterCam.fieldOfView = 70;
+            AudioManager.Instance.Start2DSound("RS_Quake");
+            _characterCam.fieldOfView = 61;
+            yield return new WaitForSeconds(0.05f);
+            _characterCam.fieldOfView = 62;
+            yield return new WaitForSeconds(0.05f);
+            _characterCam.fieldOfView = 63;
+            yield return new WaitForSeconds(0.05f);
+            _characterCam.fieldOfView = 64;
+            yield return new WaitForSeconds(0.05f);
+            _characterCam.fieldOfView = 65;
+            yield return new WaitForSeconds(0.05f);
+            _characterCam.fieldOfView = 66;
+            yield return new WaitForSeconds(0.05f);
+            _characterCam.fieldOfView = 67;
+            AudioManager.Instance.Start2DSound("D_Window1");
+            yield return new WaitForSeconds(0.05f);
+            _characterCam.fieldOfView = 68;
+            yield return new WaitForSeconds(0.05f);
+            _characterCam.fieldOfView = 69;
+            yield return new WaitForSeconds(0.05f);
+            _characterCam.fieldOfView = 70;
 
-                _stepNumber++;
-                break;
+            _stepNumber++;
+            break;
 
             case 2:
                 AudioManager.Instance.Start3DSound("S_WindowOpen2", _windowSoundPos.transform);
-                _characterCam.fieldOfView = 71;
-                yield return new WaitForSeconds(0.05f);
-                _characterCam.fieldOfView = 72;
-                yield return new WaitForSeconds(0.05f);
-                _characterCam.fieldOfView = 73;
-                yield return new WaitForSeconds(0.05f);
-                _characterCam.fieldOfView = 74;
-                yield return new WaitForSeconds(0.05f);
-                _characterCam.fieldOfView = 75;
-                yield return new WaitForSeconds(0.05f);
-                _characterCam.fieldOfView = 76;
-                yield return new WaitForSeconds(0.05f);
-                _characterCam.fieldOfView = 77;
-                AudioManager.Instance.Start2DSound("D_Window2");
-                yield return new WaitForSeconds(0.05f);
-                _characterCam.fieldOfView = 78;
-                yield return new WaitForSeconds(0.05f);
-                _characterCam.fieldOfView = 79;
-                yield return new WaitForSeconds(0.05f);
-                _characterCam.fieldOfView = 80;
+            _characterCam.fieldOfView = 71;
+            yield return new WaitForSeconds(0.05f);
+            _characterCam.fieldOfView = 72;
+            yield return new WaitForSeconds(0.05f);
+            _characterCam.fieldOfView = 73;
+            yield return new WaitForSeconds(0.05f);
+            _characterCam.fieldOfView = 74;
+            yield return new WaitForSeconds(0.05f);
+            _characterCam.fieldOfView = 75;
+            yield return new WaitForSeconds(0.05f);
+            _characterCam.fieldOfView = 76;
+            yield return new WaitForSeconds(0.05f);
+            _characterCam.fieldOfView = 77;
+            AudioManager.Instance.Start2DSound("D_Window2");
+            yield return new WaitForSeconds(0.05f);
+            _characterCam.fieldOfView = 78;
+            yield return new WaitForSeconds(0.05f);
+            _characterCam.fieldOfView = 79;
+            yield return new WaitForSeconds(0.05f);
+            _characterCam.fieldOfView = 80;
 
-                _stepNumber++;
-                break;
+            _stepNumber++;
+            break;
 
              case 3:
                  AudioManager.Instance.Start3DSound("S_WindowBreak", _windowSoundPos.transform);
-                 _characterCam.fieldOfView = 81;
-                 yield return new WaitForSeconds(0.05f);
-                 _characterCam.fieldOfView = 82;
-                 yield return new WaitForSeconds(0.05f);
-                 _characterCam.fieldOfView = 83;
-                 yield return new WaitForSeconds(0.05f);
-                 _characterCam.fieldOfView = 84;
-                 yield return new WaitForSeconds(0.05f);
-                 _characterCam.fieldOfView = 85;
-                 yield return new WaitForSeconds(0.05f);
-                 _characterCam.fieldOfView = 86;
-                 yield return new WaitForSeconds(0.05f);
-                 _characterCam.fieldOfView = 87;
-                AudioManager.Instance.Start2DSound("D_Window3");
-                yield return new WaitForSeconds(0.05f);
-                 _characterCam.fieldOfView = 88;
-                 yield return new WaitForSeconds(0.05f);
-                 _characterCam.fieldOfView = 89;
-                 yield return new WaitForSeconds(0.05f);
-                 _characterCam.fieldOfView = 90;
+            _characterCam.fieldOfView = 81;
+            yield return new WaitForSeconds(0.05f);
+            _characterCam.fieldOfView = 82;
+            yield return new WaitForSeconds(0.05f);
+            _characterCam.fieldOfView = 83;
+            yield return new WaitForSeconds(0.05f);
+            _characterCam.fieldOfView = 84;
+            yield return new WaitForSeconds(0.05f);
+            _characterCam.fieldOfView = 85;
+            yield return new WaitForSeconds(0.05f);
+            _characterCam.fieldOfView = 86;
+            yield return new WaitForSeconds(0.05f);
+            _characterCam.fieldOfView = 87;
+            AudioManager.Instance.Start2DSound("D_Window3");
+            yield return new WaitForSeconds(0.05f);
+            _characterCam.fieldOfView = 88;
+            yield return new WaitForSeconds(0.05f);
+            _characterCam.fieldOfView = 89;
+            yield return new WaitForSeconds(0.05f);
+            _characterCam.fieldOfView = 90;
 
-                 _stepNumber++;
-                 break;
+            _stepNumber++;
+            break;
 
             case 4:
                 _characterMovement.MovementActive = false;
+                    _hasJumped = true;
 
-                _fadeAnim.SetTrigger("FadeOut");
-                yield return new WaitForSeconds(1f);
-                AudioManager.Instance.StopSound(ESoundType.REPETITIVE2D, "RS_Quake");
-                AudioManager.Instance.StopSound(ESoundType.REPETITIVE3D, "RS_Fan");
-                AudioManager.Instance.StopSound(ESoundType.REPETITIVE2D, "RS_Ambiant");
+                    _fadeAnim.SetTrigger("FadeOut");
+                    AudioManager.Instance.Start2DSound("S_Jump");
+                    yield return new WaitForSeconds(1f);
+            AudioManager.Instance.StopSound(ESoundType.REPETITIVE2D, "RS_Quake");
+            AudioManager.Instance.StopSound(ESoundType.REPETITIVE3D, "RS_Fan");
+            AudioManager.Instance.StopSound(ESoundType.REPETITIVE2D, "RS_Ambiant");
 
-                AudioManager.Instance.Start2DSound("S_Fall");
-                yield return new WaitForSeconds(5f);
+            AudioManager.Instance.Start2DSound("S_Fall");
+            yield return new WaitForSeconds(5f);
 
-                AudioManager.Instance.PlayMusicWithFadeIn("RS_Death", 2f);
-                yield return new WaitForSeconds(3f);
-                AudioManager.Instance.PlayTheme();
-                yield return new WaitForSeconds(92f);
-                AudioManager.Instance.Start2DSound("S_Sayonara");
-                yield return new WaitForSeconds(2.5f);
-                Application.Quit();
-
-                break;
+            AudioManager.Instance.PlayMusicWithFadeIn("RS_Death", 2f);
+            yield return new WaitForSeconds(3f);
+            AudioManager.Instance.PlayTheme();
+            _fadeAnim.SetTrigger("Ending");
+            yield return new WaitForSeconds(92f);
+            AudioManager.Instance.Start2DSound("S_Sayonara");
+            yield return new WaitForSeconds(2.5f);
+            Application.Quit();
+            break;
         }
-          
+    }
+
+    }
+    private IEnumerator TrueEnding()
+    {
+        _characterMovement.MovementActive = false;
+        _hudComputer.SetActive(false);
+        _fadeAnim.SetTrigger("FadeOut");
+        AudioManager.Instance.StopSound(ESoundType.REPETITIVE2D, "RS_Quake");
+        AudioManager.Instance.Start2DSound("RS_Quake");
+
+        yield return new WaitForSeconds(3f);
+        AudioManager.Instance.StopSound(ESoundType.REPETITIVE2D, "RS_Quake");
+        AudioManager.Instance.StopSound(ESoundType.REPETITIVE3D, "RS_Fan");
+        AudioManager.Instance.StopSound(ESoundType.REPETITIVE2D, "RS_Ambiant");
+        yield return new WaitForSeconds(0.2f);
+        AudioManager.Instance.Start2DSound("S_Breath");
+        yield return new WaitForSeconds(1.1f);
+        AudioManager.Instance.PlayTheme();
+        AudioManager.Instance.PlayMusicWithFadeIn("RS_Death", 2f);
+        _fadeAnim.SetTrigger("Ending");
+        yield return new WaitForSeconds(92f);
+        AudioManager.Instance.Start2DSound("S_Sayonara");
+        yield return new WaitForSeconds(2.5f);
+        Application.Quit();
+
+    }
 
 
+    public void Ending()
+    {
+        StartCoroutine(TrueEnding());
     }
 
 

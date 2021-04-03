@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _key: RS_Fan
   _clip: {fileID: 8300000, guid: fac023d8145741446aac05fdd5cb08b3, type: 3}
-  _volume: 1
+  _volume: 0.85
   _pitch: 1
   _loop: 1

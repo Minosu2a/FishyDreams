@@ -39,6 +39,10 @@ public class UIController : MonoBehaviour
     [Header("Other")]
 
     [SerializeField] private GameObject _computerPos = null;
+    [SerializeField] private GameObject _endText = null;
+
+    private string _textToCast;
+    public bool _lastPhase = false;
 
 
     #endregion Fields
@@ -73,8 +77,20 @@ public class UIController : MonoBehaviour
 
         if (Input.GetKeyDown(_validationKey1) || Input.GetKeyDown(_validationKey2))
         {
-            AudioManager.Instance.Start3DSound("S_Press", _keyboardLocation.transform);
-            SearchOpen();
+
+            _textToCast = _inputField.text;
+
+
+            if (_textToCast == "FishY ReVeil")
+            {
+                _selectionManager.Ending();
+            }
+            else
+            {
+                AudioManager.Instance.Start3DSound("S_Press", _keyboardLocation.transform);
+                SearchOpen();
+            }
+
         }
     }
 
@@ -97,10 +113,12 @@ public class UIController : MonoBehaviour
 
     public void ExitSearchPage()
     {
+        _endText.SetActive(false);
         AudioManager.Instance.Start3DSound("S_Click", _mouseLocation.transform);
         _searchWindow.SetActive(false);
         AudioManager.Instance.Start3DSound("S_Sayonara", _screenLocation.transform);
         AudioManager.Instance.StopSound(ESoundType.REPETITIVE3D, "M_Japan");
+
     }
 
     public void ExitLuckPage()
@@ -117,6 +135,10 @@ public class UIController : MonoBehaviour
 
     public void SearchOpen()
     {
+        if(_lastPhase == true)
+        {
+            _endText.SetActive(true);
+        }
 
         AudioManager.Instance.Start3DSound("M_Japan", _screenLocation.transform);
         AudioManager.Instance.Start3DSound("S_Konichiwa", _screenLocation.transform);
@@ -139,9 +161,7 @@ public class UIController : MonoBehaviour
         }
         else
         {
-            AudioManager.Instance.Start3DSound("M_Japan", _screenLocation.transform);
-            AudioManager.Instance.Start3DSound("S_Konichiwa", _screenLocation.transform);
-            _searchWindow.SetActive(true);
+            SearchOpen();
         }
     }
 
@@ -169,7 +189,6 @@ public class UIController : MonoBehaviour
 
         yield return new WaitForSeconds(0.8f);
         AudioManager.Instance.Start2DSound("D_Delivery");
-
 
     }
 
