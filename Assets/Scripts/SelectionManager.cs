@@ -62,6 +62,8 @@ public class SelectionManager : MonoBehaviour
     [SerializeField] private GameObject _characterPrefab = null;
 
     [Header("MovingKey")]
+    [SerializeField] private ObjectEventLogic _fauteuil = null;
+
     private bool _hasGlue = false;
     [SerializeField] private GameObject _gluePos = null;
 
@@ -80,7 +82,7 @@ public class SelectionManager : MonoBehaviour
     [SerializeField] private GameObject _store2 = null;
     [SerializeField] private GameObject _store3 = null;
 
-    [SerializeField] private int _stepNumber = 0;
+    [SerializeField] private int _stepNumber = 1;
 
 
 
@@ -88,6 +90,8 @@ public class SelectionManager : MonoBehaviour
 
     [Header("Other")]
     [SerializeField] private GameObject[] _objectToReset = null;
+    [SerializeField] private ExitTrigger _exitTrigger = null;
+
     #endregion Fields
 
 
@@ -209,7 +213,7 @@ public class SelectionManager : MonoBehaviour
                                         _doorOutline.color = 1;
 
                                         break;
-                                    case 5:      //EXIT
+                                    case 5:      //EXIT PORTE
                                         AudioManager.Instance.Start2DSound("S_DoorOpen");
                                         _fadeAnim.SetTrigger("FadeOut");
                                         StartCoroutine(ExitPhase1());
@@ -218,13 +222,7 @@ public class SelectionManager : MonoBehaviour
                                     case 6:     //FENETRE
                                         if(_phaseNumber == 4)
                                         {
-                                            switch(_stepNumber)
-                                            {
-                                                case 0:
-                                                    break;
-                                            }
-                                             _stepNumber++;
-
+                                            StartCoroutine(WindowOpen());
                                         }
                                         else
                                         {
@@ -305,6 +303,7 @@ public class SelectionManager : MonoBehaviour
 
     private void Restart()
     {
+        _exitTrigger.Restart();
         _gotKey = false;
 
         for(int i = 0; i > _objectToReset.Length -1; i++)
@@ -317,7 +316,7 @@ public class SelectionManager : MonoBehaviour
         switch (_phaseNumber)
         {
             case 2:
-
+                _fauteuil.Selectable = true;
                 break;
 
             case 3:
@@ -456,30 +455,30 @@ public class SelectionManager : MonoBehaviour
                 _stepNumber++;
                 break;
 
-           /*  case 3:
-                 AudioManager.Instance.Start3DSound("S_WindowOpen2", _windowSoundPos.transform);
-                 _characterCam.fieldOfView = 71;
+             case 3:
+                 AudioManager.Instance.Start3DSound("S_WidowBreak", _windowSoundPos.transform);
+                 _characterCam.fieldOfView = 81;
                  yield return new WaitForSeconds(0.05f);
-                 _characterCam.fieldOfView = 72;
+                 _characterCam.fieldOfView = 82;
                  yield return new WaitForSeconds(0.05f);
-                 _characterCam.fieldOfView = 73;
+                 _characterCam.fieldOfView = 83;
                  yield return new WaitForSeconds(0.05f);
-                 _characterCam.fieldOfView = 74;
+                 _characterCam.fieldOfView = 84;
                  yield return new WaitForSeconds(0.05f);
-                 _characterCam.fieldOfView = 75;
+                 _characterCam.fieldOfView = 85;
                  yield return new WaitForSeconds(0.05f);
-                 _characterCam.fieldOfView = 76;
+                 _characterCam.fieldOfView = 86;
                  yield return new WaitForSeconds(0.05f);
-                 _characterCam.fieldOfView = 77;
+                 _characterCam.fieldOfView = 87;
                  yield return new WaitForSeconds(0.05f);
-                 _characterCam.fieldOfView = 78;
+                 _characterCam.fieldOfView = 88;
                  yield return new WaitForSeconds(0.05f);
-                 _characterCam.fieldOfView = 79;
+                 _characterCam.fieldOfView = 89;
                  yield return new WaitForSeconds(0.05f);
-                 _characterCam.fieldOfView = 80;
+                 _characterCam.fieldOfView = 90;
 
                  _stepNumber++;
-                 break;*/
+                 break;
 
             case 4:
                 _characterMovement.MovementActive = false;
@@ -490,7 +489,12 @@ public class SelectionManager : MonoBehaviour
                 AudioManager.Instance.Start2DSound("S_Fall");
                 yield return new WaitForSeconds(5f);
                 AudioManager.Instance.PlayMusicWithFadeIn("RS_Death", 2f);
+                yield return new WaitForSeconds(3f);
                 AudioManager.Instance.PlayTheme();
+                yield return new WaitForSeconds(92f);
+                AudioManager.Instance.Start2DSound("S_Sayonara");
+                Application.Quit();
+
                 break;
         }
           

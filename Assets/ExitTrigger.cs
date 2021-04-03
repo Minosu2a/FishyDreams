@@ -18,4 +18,11 @@ public class ExitTrigger : MonoBehaviour
             _logic.Selectable = true;
         }
     }
+
+
+    public void Restart()
+    {
+        _outline.eraseRenderer = true;
+        _logic.Selectable = false;
+    }
 }

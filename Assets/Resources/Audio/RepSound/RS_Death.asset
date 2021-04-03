@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: RS_Death
   m_EditorClassIdentifier: 
   _key: RS_Death
-  _clip: {fileID: 0}
+  _clip: {fileID: 8300000, guid: dff0cbd0dd2de9a4cb303ff1ce6a7ec0, type: 3}
   _volume: 1
   _pitch: 1
   _loop: 1
