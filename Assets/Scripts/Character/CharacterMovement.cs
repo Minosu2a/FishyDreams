@@ -37,7 +37,7 @@ public class CharacterMovement : MonoBehaviour
     void Update()
     {
 
-        if(MovementActive == true)
+        if(_movementActive == true)
         {
 
             float x = InputManager.Instance.MoveDirX;

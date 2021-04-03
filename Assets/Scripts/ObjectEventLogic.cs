@@ -57,7 +57,18 @@ public class ObjectEventLogic : MonoBehaviour
             _outline = value;
         }
     }
-    public int ObjectNumber => _objectNumber;
+    public int ObjectNumber
+    {
+        get
+        {
+            return _objectNumber;
+
+        }
+        set
+        {
+            _objectNumber = value;
+        }
+    }
     public bool DeleteOnSelect => _deleteOnSelect;
     public bool SoundOnSelect => _soundOnSelect;
     public string SoundToPlayOnSelect => _soundToPlayOnSelect;
