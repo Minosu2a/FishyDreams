@@ -60,14 +60,19 @@ public class SelectionManager : MonoBehaviour
     [SerializeField] private Animator _fadeAnim = null;
     [SerializeField] private Transform _spawnPosition = null;
     [SerializeField] private GameObject _characterPrefab = null;
+    [SerializeField] private CharacterMovement _move = null;
+
+    [SerializeField] private bool _inPhaseTransition = false;
+
 
     [Header("MovingKey")]
     [SerializeField] private ObjectEventLogic _fauteuil = null;
 
     private bool _hasGlue = false;
     [SerializeField] private GameObject _gluePos = null;
+    [SerializeField] private ObjectEventLogic _glueLogic = null;
 
-    [SerializeField] private int _keyNumber = 1;
+    [SerializeField] private int _keyNumber = 0;
 
     [SerializeField] private GameObject[] _keys = null;
 
@@ -214,10 +219,16 @@ public class SelectionManager : MonoBehaviour
 
                                         break;
                                     case 5:      //EXIT PORTE
-                                        AudioManager.Instance.Start2DSound("S_DoorOpen");
-                                        _fadeAnim.SetTrigger("FadeOut");
-                                        StartCoroutine(ExitPhase1());
-                                        _phaseNumber++;
+                                        if(_inPhaseTransition == false)
+                                        {
+                                            _move.MovementActive = false;
+                                            AudioManager.Instance.Start2DSound("S_DoorOpen");
+                                            _fadeAnim.SetTrigger("FadeOut");
+                                            StartCoroutine(ExitPhase1());
+                                            _phaseNumber++;
+                                            _inPhaseTransition = true;
+                                        }
+                                        
                                         break;
                                     case 6:     //FENETRE
                                         if(_phaseNumber == 4)
@@ -233,8 +244,10 @@ public class SelectionManager : MonoBehaviour
                                         break;
 
                                     case 7: //EMPLACEMENT DE LA MOVING KEY
-                                        _keys[1].SetActive(true);
-                                        AudioManager.Instance.Start3DSound("S_Anime", _keys[1].transform);
+                                        _keys[0].SetActive(true);
+                                        AudioManager.Instance.Start3DSound("S_Anime", _keys[0].transform);
+                                       // _keys[1].GetComponent<ObjectEventLogic>().Selectable = true;
+
 
                                         break;
 
@@ -249,7 +262,7 @@ public class SelectionManager : MonoBehaviour
                                             _doorOutline.color = 1;
                                         }
                                         break;
-                                    case 9:
+                                    case 9: //COLLE
                                         AudioManager.Instance.Start3DSound("S_Glue", _gluePos.transform);
                                         _hasGlue = true;
                                         break;
@@ -305,17 +318,23 @@ public class SelectionManager : MonoBehaviour
     {
         _gotKey = false;
 
-        for(int i = 0; i > _objectToReset.Length -1; i++)
+        for(int i = 0; i < _objectToReset.Length; i++)
         {
             _objectToReset[i].SetActive(true);
         }
 
+        _boxOfKey.ObjectNumber = 0;
+        _doorObject.SetActive(true);
+        _newDoorObject.SetActive(false);
         _doorOutline.color = 0;
 
         switch (_phaseNumber)
         {
             case 2:
                 _fauteuil.Selectable = true;
+                _keys[1].SetActive(true);
+                _keys[2].SetActive(true);
+                _keys[3].SetActive(true);
                 break;
 
             case 3:
@@ -348,7 +367,7 @@ public class SelectionManager : MonoBehaviour
         _hudComputer.SetActive(true);
     }
 
-    private IEnumerator ExitPhase1()
+    public IEnumerator ExitPhase1()
     {
         yield return new WaitForSeconds(1f);
         Restart();
@@ -356,25 +375,28 @@ public class SelectionManager : MonoBehaviour
         _characterPrefab.transform.position = _spawnPosition.transform.position;
         yield return new WaitForSeconds(0.2f);
         _fadeAnim.SetTrigger("FadeIn");
+        _inPhaseTransition = false;
+        _move.MovementActive = true;
 
 
     }
 
     private IEnumerator KeyDisappear()
     {
+        _glueLogic.Selectable = true;
 
         int keyToRemove = _keyNumber;
         int keyToAdd;
 
-        if (keyToRemove == 4)
+        if (keyToRemove == 3)
         {
-            keyToAdd = 1;
-
+            keyToAdd = 0;
+           _keyNumber = 0;
         }
         else
         {
             keyToAdd = _keyNumber + 1;
-
+            _keyNumber++;
         }
 
 
@@ -382,13 +404,14 @@ public class SelectionManager : MonoBehaviour
         _keys[keyToRemove].GetComponent<ObjectEventLogic>().Selectable = false;
 
         yield return new WaitForSeconds(1.2f);
-        _keys[keyToRemove].SetActive(false);
+        _keys[keyToRemove].GetComponent<Renderer>().enabled = false;
 
         yield return new WaitForSeconds(0.2f);
         _keys[keyToAdd].GetComponent<ObjectEventLogic>().Selectable = true;
-        _keys[keyToAdd].SetActive(true);
+        _keys[keyToAdd].GetComponent<Renderer>().enabled = true;
+        //_keys[keyToAdd].SetActive(true);
         AudioManager.Instance.Start3DSound("S_KeyAppear", _keys[keyToAdd].transform);
-
+        
 
     }
 
@@ -398,7 +421,7 @@ public class SelectionManager : MonoBehaviour
         AudioManager.Instance.Start3DSound("S_GotKey", _keys[_keyNumber].transform);
         yield return new WaitForSeconds(0.3f);
         _gotKey = true;
-        AudioManager.Instance.Start3DSound("S_KeyPickUp", _keys[_keyNumber].transform);
+        AudioManager.Instance.Start2DSound("S_KeyPickUp");
         _keys[_keyNumber].SetActive(false);
 
 
@@ -459,7 +482,7 @@ public class SelectionManager : MonoBehaviour
                 break;
 
              case 3:
-                 AudioManager.Instance.Start3DSound("S_WidowBreak", _windowSoundPos.transform);
+                 AudioManager.Instance.Start3DSound("S_WindowBreak", _windowSoundPos.transform);
                  _characterCam.fieldOfView = 81;
                  yield return new WaitForSeconds(0.05f);
                  _characterCam.fieldOfView = 82;

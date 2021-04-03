@@ -149,7 +149,12 @@ public class UIController : MonoBehaviour
     public void Buy()
     {
         _keyBought = true;
+  
+
         AudioManager.Instance.Start3DSound("S_Buy", _screenLocation.transform);
+
+        _keyPosition.SetActive(true);
+        AudioManager.Instance.Start3DSound("S_KeyAppear", _keyPosition.transform);
 
         AudioManager.Instance.Start3DSound("S_Click", _mouseLocation.transform);
 
