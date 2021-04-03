@@ -68,6 +68,9 @@ public class SelectionManager : MonoBehaviour
 
 
     [Header("MovingKey")]
+    [SerializeField] private ObjectEventLogic _carton = null;
+
+
     [SerializeField] private ObjectEventLogic _fauteuil = null;
 
     private bool _hasGlue = false;
@@ -77,7 +80,7 @@ public class SelectionManager : MonoBehaviour
     [SerializeField] private int _keyNumber = 0;
 
     [SerializeField] private GameObject[] _keys = null;
-
+    [SerializeField] private int _dialogueNumber = 1;
 
 
     [Header("Window")]
@@ -98,6 +101,7 @@ public class SelectionManager : MonoBehaviour
     [Header("Other")]
     [SerializeField] private GameObject[] _objectToReset = null;
     [SerializeField] private ExitTrigger _exitTrigger = null;
+    private bool _pcFirstTime = true;
 
     #endregion Fields
 
@@ -181,6 +185,14 @@ public class SelectionManager : MonoBehaviour
 
                                         if(_phaseNumber == 3 || _phaseNumber == 4)
                                         {
+                                            if(_pcFirstTime == true)
+                                            {
+                                                AudioManager.Instance.Start2DSound("D_HintLuck"); //VOIX
+
+                                                _pcFirstTime = false;
+                                            }
+                                            
+
                                             _characterMovement.MovementActive = false;
                                             Cursor.lockState = CursorLockMode.None;
                                             _characterCam.gameObject.SetActive(false);
@@ -192,7 +204,7 @@ public class SelectionManager : MonoBehaviour
                                         }
                                         else
                                         {
-                                          //  AudioManager.Instance.Start2DSound(""); //VOIX
+                                           AudioManager.Instance.Start2DSound("D_OrdiLock"); //VOIX
                                         }
                                         
                                         break;
@@ -220,6 +232,7 @@ public class SelectionManager : MonoBehaviour
                                         break;
 
                                     case 4: //FIRST KEY
+                                        AudioManager.Instance.Start2DSound("D_KeyFound");
                                         _gotKey = true;
                                         AudioManager.Instance.Start2DSound("S_KeyPickUp");
                                         _doorOutline.color = 1;
@@ -244,8 +257,7 @@ public class SelectionManager : MonoBehaviour
                                         }
                                         else
                                         {
-                                            //AudioManager.Instance.Start2DSound("S_Vanish"); //VOIX 
-
+                                            AudioManager.Instance.Start2DSound("D_WindowLock"); //VOIX 
                                         }
 
                                         break;
@@ -261,17 +273,31 @@ public class SelectionManager : MonoBehaviour
                                     case 8: //KEY QUI BOUGE
                                         if(_hasGlue == false)
                                         {
-                                            StartCoroutine(KeyDisappear()); 
+                                            _carton.Selectable = true;
+
+                                            StartCoroutine(KeyDisappear());
+
                                         }
                                         else
                                         {
+                                          
                                             StartCoroutine(GotKey());
                                             _doorOutline.color = 1;
                                         }
                                         break;
                                     case 9: //COLLE
                                         AudioManager.Instance.Start3DSound("S_Glue", _gluePos.transform);
+                                        if(_hasGlue == false)
+                                        {
+                                            AudioManager.Instance.Start2DSound("D_Glue");
+                                        }
                                         _hasGlue = true;
+                                        break;
+                                    case 10:
+                                        _gotKey = true;
+                                        AudioManager.Instance.Start2DSound("D_WinP3");
+                                        AudioManager.Instance.Start2DSound("S_KeyPickUp");
+                                        _doorOutline.color = 1;
                                         break;
                                 }
 
@@ -338,13 +364,16 @@ public class SelectionManager : MonoBehaviour
         switch (_phaseNumber)
         {
             case 2:
+                AudioManager.Instance.Start2DSound("D_SpawnPhase2");
                 _fauteuil.Selectable = true;
+                _keys[0].SetActive(true);
                 _keys[1].SetActive(true);
                 _keys[2].SetActive(true);
                 _keys[3].SetActive(true);
                 break;
 
             case 3:
+                AudioManager.Instance.Start2DSound("D_SpawnPhase3");
                 _store1.SetActive(false);
                 _store2.SetActive(true);
 
@@ -413,13 +442,36 @@ public class SelectionManager : MonoBehaviour
         yield return new WaitForSeconds(1.2f);
         _keys[keyToRemove].GetComponent<Renderer>().enabled = false;
 
+        switch (_dialogueNumber)
+        {
+            case 1:
+                AudioManager.Instance.Start2DSound("D_KeyGrab1");
+                StartCoroutine(FishHint());
+                break;
+            case 2:
+                AudioManager.Instance.Start2DSound("D_KeyGrab3");
+                break;
+            case 3:
+                AudioManager.Instance.Start2DSound("D_KeyGrab4");
+                break;
+            default:
+                AudioManager.Instance.Start2DSound("D_KeyGrabD");
+                break;
+        }
+
         yield return new WaitForSeconds(0.2f);
         _keys[keyToAdd].GetComponent<ObjectEventLogic>().Selectable = true;
         _keys[keyToAdd].GetComponent<Renderer>().enabled = true;
         //_keys[keyToAdd].SetActive(true);
         AudioManager.Instance.Start3DSound("S_KeyAppear", _keys[keyToAdd].transform);
-        
+        _dialogueNumber++;
 
+    }
+
+    private IEnumerator FishHint()
+    {
+        yield return new WaitForSeconds(8f);
+        AudioManager.Instance.Start3DSound("D_Fish1", _carton.gameObject.transform);
     }
 
     private IEnumerator GotKey()
@@ -453,6 +505,7 @@ public class SelectionManager : MonoBehaviour
                 _characterCam.fieldOfView = 66;
                 yield return new WaitForSeconds(0.05f);
                 _characterCam.fieldOfView = 67;
+                AudioManager.Instance.Start2DSound("D_Window1");
                 yield return new WaitForSeconds(0.05f);
                 _characterCam.fieldOfView = 68;
                 yield return new WaitForSeconds(0.05f);
@@ -478,6 +531,7 @@ public class SelectionManager : MonoBehaviour
                 _characterCam.fieldOfView = 76;
                 yield return new WaitForSeconds(0.05f);
                 _characterCam.fieldOfView = 77;
+                AudioManager.Instance.Start2DSound("D_Window2");
                 yield return new WaitForSeconds(0.05f);
                 _characterCam.fieldOfView = 78;
                 yield return new WaitForSeconds(0.05f);
@@ -503,7 +557,8 @@ public class SelectionManager : MonoBehaviour
                  _characterCam.fieldOfView = 86;
                  yield return new WaitForSeconds(0.05f);
                  _characterCam.fieldOfView = 87;
-                 yield return new WaitForSeconds(0.05f);
+                AudioManager.Instance.Start2DSound("D_Window3");
+                yield return new WaitForSeconds(0.05f);
                  _characterCam.fieldOfView = 88;
                  yield return new WaitForSeconds(0.05f);
                  _characterCam.fieldOfView = 89;
@@ -521,6 +576,7 @@ public class SelectionManager : MonoBehaviour
 
                 AudioManager.Instance.Start2DSound("S_Fall");
                 yield return new WaitForSeconds(5f);
+                AudioManager.Instance.StopSound(ESoundType.REPETITIVE2D, "RS_Ambiant");
                 AudioManager.Instance.PlayMusicWithFadeIn("RS_Death", 2f);
                 yield return new WaitForSeconds(3f);
                 AudioManager.Instance.PlayTheme();

@@ -154,11 +154,23 @@ public class UIController : MonoBehaviour
         AudioManager.Instance.Start3DSound("S_Buy", _screenLocation.transform);
 
         _keyPosition.SetActive(true);
-        AudioManager.Instance.Start3DSound("S_KeyAppear", _keyPosition.transform);
 
+        StartCoroutine(BuyKey());
         AudioManager.Instance.Start3DSound("S_Click", _mouseLocation.transform);
 
         _luckWindow.SetActive(false);
+    }
+
+
+    public IEnumerator BuyKey()
+    {
+        yield return new WaitForSeconds(0.5f);
+        AudioManager.Instance.Start3DSound("S_KeyAppear", _keyPosition.transform);
+
+        yield return new WaitForSeconds(0.8f);
+        AudioManager.Instance.Start2DSound("D_Delivery");
+
+
     }
 
     #endregion Buttons

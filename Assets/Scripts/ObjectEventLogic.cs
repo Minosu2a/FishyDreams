@@ -12,6 +12,7 @@ public class ObjectEventLogic : MonoBehaviour
     [SerializeField] private int _objectNumber;
     [SerializeField] private bool _deleteOnSelect = false;
     [SerializeField] private bool _soundOnSelect = false;
+
     [SerializeField] private string _soundToPlayOnSelect = string.Empty;
     private bool _selectAudioPlayed = false;
     [SerializeField] private Outline _outline = null;
