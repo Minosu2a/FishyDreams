@@ -60,6 +60,8 @@ public class SelectionManager : MonoBehaviour
     [SerializeField] private Animator _fadeAnim = null;
     [SerializeField] private Transform _spawnPosition = null;
     [SerializeField] private GameObject _characterPrefab = null;
+    [SerializeField] private bool _inPhaseTransition = false;
+
 
     [Header("MovingKey")]
     [SerializeField] private ObjectEventLogic _fauteuil = null;
@@ -214,10 +216,15 @@ public class SelectionManager : MonoBehaviour
 
                                         break;
                                     case 5:      //EXIT PORTE
-                                        AudioManager.Instance.Start2DSound("S_DoorOpen");
-                                        _fadeAnim.SetTrigger("FadeOut");
-                                        StartCoroutine(ExitPhase1());
-                                        _phaseNumber++;
+                                        if(_inPhaseTransition == false)
+                                        {
+                                            _inPhaseTransition = true;
+                                            AudioManager.Instance.Start2DSound("S_DoorOpen");
+                                            _fadeAnim.SetTrigger("FadeOut");
+                                            StartCoroutine(ExitPhase1());
+                                            _phaseNumber++;
+                                        }
+                                        
                                         break;
                                     case 6:     //FENETRE
                                         if(_phaseNumber == 4)
@@ -356,6 +363,7 @@ public class SelectionManager : MonoBehaviour
         _characterPrefab.transform.position = _spawnPosition.transform.position;
         yield return new WaitForSeconds(0.2f);
         _fadeAnim.SetTrigger("FadeIn");
+        _inPhaseTransition = false;
 
 
     }
