@@ -11,6 +11,8 @@ public class SelectionManager : MonoBehaviour
     #region Fields
 
     [Header("Main Logic")]
+    [SerializeField] private int _phaseNumber = 1;
+
     [SerializeField] private string eventTag = "ObjectEvent";
 
     [SerializeField] private Material _highlightMaterial = null;
@@ -130,15 +132,23 @@ public class SelectionManager : MonoBehaviour
 
                                 switch(eventLogic.ObjectNumber)
                                 {
-                                    case 1:
-                                        _characterMovement.MovementActive = false;
-                                        Cursor.lockState = CursorLockMode.None;
-                                        _characterCam.gameObject.SetActive(false);
-                                        _computerActive = true;
-                                        AudioManager.Instance.Start3DSound("S_Press", _keyboardLocation.transform);
-                                        _computerCam.gameObject.SetActive(true);
+                                    case 1:         //ORDI
 
-                                        StartCoroutine(ComputerStart());
+                                        if(_phaseNumber == 3 || _phaseNumber == 4)
+                                        {
+                                            _characterMovement.MovementActive = false;
+                                            Cursor.lockState = CursorLockMode.None;
+                                            _characterCam.gameObject.SetActive(false);
+                                            _computerActive = true;
+                                            AudioManager.Instance.Start3DSound("S_Press", _keyboardLocation.transform);
+                                            _computerCam.gameObject.SetActive(true);
+
+                                            StartCoroutine(ComputerStart());
+                                        }
+                                        else
+                                        {
+                                          //  AudioManager.Instance.Start2DSound("");
+                                        }
                                         
                                         break;
 
@@ -165,10 +175,21 @@ public class SelectionManager : MonoBehaviour
                                         _doorOutline.color = 1;
 
                                         break;
-                                    case 5:
+                                    case 5:      //EXIT
                                         AudioManager.Instance.Start2DSound("S_DoorOpen");
                                         _fadeAnim.SetTrigger("FadeOut");
                                         StartCoroutine(ExitPhase1());
+                                        _phaseNumber++;
+                                        break;
+                                    case 6:     //FENETRE
+                                        if(_phaseNumber == 4)
+                                        {
+
+                                        }
+                                        else
+                                        {
+
+                                        }
 
                                         break;
                                 }

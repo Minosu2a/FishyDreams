@@ -32,11 +32,15 @@ public class UIController : MonoBehaviour
     [SerializeField] private KeyCode _validationKey1 = KeyCode.KeypadEnter;
     [SerializeField] private KeyCode _validationKey2 = KeyCode.Return;
     [SerializeField] private TMP_InputField _inputField = null;
+    [Header("Buying")]
+    [SerializeField] private GameObject _keyPosition = null;
 
 
     [Header("Other")]
 
     [SerializeField] private GameObject _computerPos = null;
+
+
     #endregion Fields
     #region Property
     #endregion Property
