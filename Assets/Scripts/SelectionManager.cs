@@ -303,7 +303,6 @@ public class SelectionManager : MonoBehaviour
 
     private void Restart()
     {
-        _exitTrigger.Restart();
         _gotKey = false;
 
         for(int i = 0; i > _objectToReset.Length -1; i++)
@@ -338,6 +337,9 @@ public class SelectionManager : MonoBehaviour
                 _windowLogic.Selectable = true;
                 break;
         }
+
+        _exitTrigger.Restart();
+
     }
 
     private IEnumerator ComputerStart()
@@ -354,6 +356,7 @@ public class SelectionManager : MonoBehaviour
         _characterPrefab.transform.position = _spawnPosition.transform.position;
         yield return new WaitForSeconds(0.2f);
         _fadeAnim.SetTrigger("FadeIn");
+
 
     }
 
