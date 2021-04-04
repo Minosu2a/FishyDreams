@@ -36,6 +36,10 @@ public class UIController : MonoBehaviour
     [SerializeField] private GameObject _keyPosition = null;
 
 
+    [Header("Subtitle")]
+    [SerializeField] private TMP_Text _subtitleTextbox = null;
+    [SerializeField] private GameObject _subtitleHUD = null;
+
     [Header("Other")]
 
     [SerializeField] private GameObject _computerPos = null;
@@ -47,6 +51,30 @@ public class UIController : MonoBehaviour
 
     #endregion Fields
     #region Property
+
+    public TMP_Text SubtitleTextbox
+    {
+        get
+        {
+            return _subtitleTextbox;
+        }
+        set
+        {
+            _subtitleTextbox = value;
+        }
+    }
+    public GameObject SubtitleHUD
+    {
+        get
+        {
+            return _subtitleHUD;
+        }
+        set
+        {
+            _subtitleHUD = value;
+        }
+    }
+
     #endregion Property
 
 
@@ -106,7 +134,7 @@ public class UIController : MonoBehaviour
         _characterCam.gameObject.SetActive(true);
         _selectionManager.ComputerActive = false;
         AudioManager.Instance.Start3DSound("S_Click", _mouseLocation.transform);
-
+        Cursor.visible = false;
 
 
     }

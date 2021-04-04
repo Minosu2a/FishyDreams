@@ -345,6 +345,7 @@ MonoBehaviour:
   _musicsVolume: 1
   _fadeTick: 0.05
   _themeSource: {fileID: 1283693643}
+  _timeSubtitleTick: 0.2
 --- !u!4 &744845361
 Transform:
   m_ObjectHideFlags: 0

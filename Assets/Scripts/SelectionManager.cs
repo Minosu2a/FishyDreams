@@ -374,8 +374,7 @@ public class SelectionManager : MonoBehaviour
         {
             case 2:
                 AudioManager.Instance.Start2DSound("D_SpawnPhase2");
-                _fauteuil.Selectable = true;
-                _keys[0].SetActive(true);
+                 _keys[0].SetActive(true);
                 _keys[1].SetActive(true);
                 _keys[2].SetActive(true);
                 _keys[3].SetActive(true);
@@ -411,6 +410,7 @@ public class SelectionManager : MonoBehaviour
     {
         yield return new WaitForSeconds(0.5f);
         _hudComputer.SetActive(true);
+        Cursor.visible = true;
     }
 
     public IEnumerator ExitPhase1()

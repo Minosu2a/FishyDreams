@@ -17,3 +17,6 @@ MonoBehaviour:
   _volume: 1
   _pitch: 1
   _loop: 0
+  _subtitleOn: 1
+  _subtitleTime: 1.5
+  _subtitleText: The Key must be under those books

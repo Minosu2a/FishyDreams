@@ -60,6 +60,16 @@ public class AudioManager : Singleton<AudioManager>
 
     [SerializeField] private AudioSource _themeSource = null;
 
+
+    //--- SUBTITLES
+    private Timer _timerSubtitle = null;
+    [SerializeField] private float _timeSubtitleTick = 0.3f;
+    private float _subtitleTimestamp = 0f;
+    private float _timeSubtitleTarget = 1f;
+
+
+
+
     //Can be used if main musics are used several time, to avoid confusion or error. If used new fonction for those main music has to be created
     // [Header("Music Names")]                                       
     // [SerializeField] private string _mainMenuTheme = null;
@@ -128,6 +138,11 @@ public class AudioManager : Singleton<AudioManager>
 
             _timerFadeOutTick = new Timer();
             _timerFadeOutTick.OnTick += FadeOutTick;
+
+            _timerSubtitle = new Timer();
+            _timerSubtitle.OnTick += ShowSubtitleTick;
+
+
 
         }
 
@@ -377,12 +392,18 @@ public class AudioManager : Singleton<AudioManager>
         }
         else
         {
+            if(_soundData[key].SubtitleOn == true)
+            {
+                Subtitle(_soundData[key].SubtitleTime, _soundData[key].SubtitleText);
+            }
+
             AudioSource oneShotSource2D = Instantiate(_mainSoundSource, transform);
             //_2DSources.Add(key, oneShotSource2D);
 
             PlaySound(oneShotSource2D, key);
         }
     }
+
 
     #endregion 2DSound
 
@@ -398,6 +419,7 @@ public class AudioManager : Singleton<AudioManager>
         }
         else if (_soundData[key].Loop == true)
         {
+
             AudioSource repSource3D = Instantiate(_3DRepetitiveSoundSource, position);
             _3DRepetitiveSources.Add(key, repSource3D);
 
@@ -405,6 +427,11 @@ public class AudioManager : Singleton<AudioManager>
         }
         else
         {
+            if (_soundData[key].SubtitleOn == true)
+            {
+                Subtitle(_soundData[key].SubtitleTime, _soundData[key].SubtitleText);
+            }
+
             AudioSource oneShotSource3D = Instantiate(_3DSoundSource, position);
            // _3DSources.Add(key, oneShotSource3D);
 
@@ -413,6 +440,33 @@ public class AudioManager : Singleton<AudioManager>
     }
     #endregion 3DSound
 
+    #region Subtitles
+    private void Subtitle(float showTime, string textToShow)
+    {
+        _timeSubtitleTarget = showTime;
+
+        UIManager.Instance.UIController.SubtitleHUD.SetActive(true);
+        UIManager.Instance.UIController.SubtitleTextbox.text = textToShow;
+
+        _timerSubtitle.StartTimer(_timeSubtitleTick);
+
+    }
+
+    private void ShowSubtitleTick()
+    {
+        if(_subtitleTimestamp >= _timeSubtitleTarget)
+        {
+            UIManager.Instance.UIController.SubtitleHUD.SetActive(false);
+            _subtitleTimestamp = 0;
+            _timerSubtitle.StopTimer();
+
+        }
+        else
+        {
+            _subtitleTimestamp = _subtitleTimestamp + _timeSubtitleTick;
+        }
+    }
+    #endregion Subtitles
 
 
     #region Common Sounds

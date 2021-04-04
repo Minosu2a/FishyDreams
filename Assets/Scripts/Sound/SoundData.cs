@@ -18,6 +18,12 @@ public class SoundData : ScriptableObject
 
     [SerializeField] private bool _loop = false;
 
+    [SerializeField] private bool _subtitleOn = false;
+
+    [SerializeField] private float _subtitleTime = 2;
+
+    [SerializeField] private string _subtitleText = string.Empty;
+
 
     public string Key => _key;
 
@@ -28,5 +34,11 @@ public class SoundData : ScriptableObject
     public float Pitch => _pitch;
 
     public bool Loop => _loop;
+
+    public bool SubtitleOn => _subtitleOn;
+    public float SubtitleTime => _subtitleTime;
+    public string SubtitleText => _subtitleText;
+
+
 
 }

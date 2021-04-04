@@ -44,9 +44,16 @@ public class CharacterMovement : MonoBehaviour
             float y = InputManager.Instance.MoveDirY;
 
 
-            _move = transform.right * x + transform.forward * y;
+            //_move = transform.right * x + transform.forward * y;
+            Vector3 movementForward = transform.forward * Input.GetAxis("Vertical");
+            Vector3 movementHorizontal = transform.right * Input.GetAxis("Horizontal");
 
-            _controller.Move(_move * _speed * Time.deltaTime);
+            Vector3 move = (movementForward + movementHorizontal) * _speed;
+
+            _controller.SimpleMove(move) ;
+           // _controller.SimpleMove(movementHorizontal * _speed * Time.deltaTime);
+
+            // _controller.SimpleMove(_move * _speed * Time.deltaTime);
         }
 
 
