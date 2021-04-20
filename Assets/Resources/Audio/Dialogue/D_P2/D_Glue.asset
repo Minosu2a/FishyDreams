@@ -17,3 +17,6 @@ MonoBehaviour:
   _volume: 1
   _pitch: 1
   _loop: 0
+  _subtitleOn: 1
+  _subtitleTime: 2.5
+  _subtitleText: I bet the key are really pissed right now !

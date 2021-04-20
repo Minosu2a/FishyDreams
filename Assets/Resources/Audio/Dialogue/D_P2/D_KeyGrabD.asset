@@ -17,3 +17,6 @@ MonoBehaviour:
   _volume: 1
   _pitch: 1
   _loop: 0
+  _subtitleOn: 1
+  _subtitleTime: 2.8
+  _subtitleText: You should maybe consider changing your tactics

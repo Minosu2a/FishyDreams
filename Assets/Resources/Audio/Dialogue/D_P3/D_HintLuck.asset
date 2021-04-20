@@ -17,3 +17,7 @@ MonoBehaviour:
   _volume: 1
   _pitch: 1
   _loop: 0
+  _subtitleOn: 1
+  _subtitleTime: 4
+  _subtitleText: Hey click on Im lucky ("Jai de la chance"), i got a good feeling
+    about it
